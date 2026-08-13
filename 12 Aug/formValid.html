@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Simple Form Validation (No Regex)</title>
+    <style>
+      .error {
+        color: red;
+        font-size: 0.85rem;
+        margin-top: 2px;
+        display: block;
+      }
+      input.invalid {
+        border: 1px solid red;
+      }
+      input.valid {
+        border: 1px solid green;
+      }
+      form {
+        max-width: 320px;
+        font-family: sans-serif;
+      }
+      .field {
+        margin-bottom: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="signupForm" novalidate>
+      <div class="field">
+        <label for="name">Name</label><br />
+        <input type="text" id="name" />
+        <span class="error" id="nameError"></span>
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label><br />
+        <input type="text" id="email" />
+        <span class="error" id="emailError"></span>
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label><br />
+        <input type="password" id="password" />
+        <span class="error" id="passwordError"></span>
+      </div>
+
+      <button type="submit">Sign Up</button>
+    </form>
+
+    <script>
+      const form = document.getElementById("signupForm");
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault(); // stop the page from reloading
+
+        let isValid = true;
+
+        const name = document.getElementById("name");
+        const nameError = document.getElementById("nameError");
+        
+        if (name.value.trim().length < 3) {
+          nameError.textContent = "Name must be at least 3 characters.";
+          name.classList.add("invalid");
+          isValid = false;
+        } else {
+          nameError.textContent = "";
+          name.classList.remove("invalid");
+        }
+
+        const email = document.getElementById("email");
+        const emailError = document.getElementById("emailError");
+        
+        const emailValue = email.value.trim();
+        const hasAt = emailValue.includes("@");
+      
+        if (!hasAt || emailValue.length < 5) {
+          emailError.textContent = "Enter a valid email like name@example.com.";
+          email.classList.add("invalid");
+          isValid = false;
+        } else {
+          emailError.textContent = "";
+          email.classList.remove("invalid");
+        }
+
+        const password = document.getElementById("password");
+        const passwordError = document.getElementById("passwordError");
+        
+        if (password.value.length < 6) {
+          passwordError.textContent = "Password must be at least 6 characters.";
+          password.classList.add("invalid");
+          isValid = false;
+        } 
+        else {
+          passwordError.textContent = "";
+          password.classList.remove("invalid");
+        }
+
+        if (isValid) {
+          alert("Form submitted successfully!");
+          form.reset();
+        }
+      });
+    </script>
+  </body>
+</html>
